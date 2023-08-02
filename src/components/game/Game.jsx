@@ -42,10 +42,10 @@ const Game = () => {
   const [stone, setStone] = useState(null)
   const [checkPoints, setCheckPoints] = useState({})
 
-  useKeyPressListener('ArrowUp', () => handleArrowPress(0, -0.5))
-  useKeyPressListener('ArrowDown', () => handleArrowPress(0, 0.5))
-  useKeyPressListener('ArrowRight', () => handleArrowPress(0.5, 0))
-  useKeyPressListener('ArrowLeft', () => handleArrowPress(-0.5, 0))
+  useKeyPressListener('ArrowUp', () => handleArrowPress(0, -1))
+  useKeyPressListener('ArrowDown', () => handleArrowPress(0, 1))
+  useKeyPressListener('ArrowRight', () => handleArrowPress(1, 0))
+  useKeyPressListener('ArrowLeft', () => handleArrowPress(-1, 0))
 
   const attemptGrabCheckPoint = (x, y) => {
     const key = getKeyString(x, y)
@@ -98,16 +98,18 @@ const Game = () => {
       const playerObj = players[playerId]
       playerObj.x = newX
       playerObj.y = newY
+      if (xChange === 1) {
+        playerObj.direction = 'right'
+      }
+      if (xChange === -1) {
+        playerObj.direction = 'left'
+      }
+      console.log(xChange)
+      console.log(playerObj)
       setPlayers(prevPlayers => ({
         ...prevPlayers,
         [playerId]: playerObj,
       }))
-      if (xChange === 1) {
-        players[playerId].direction = 'right'
-      }
-      if (xChange === -1) {
-        players[playerId].direction = 'left'
-      }
       set(playerRef, players[playerId])
     }
   }
