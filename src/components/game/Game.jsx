@@ -38,8 +38,8 @@ const Game = () => {
   const [isLoading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [playerName, setPlayerName] = useState('')
-  const [rockRef, setRockRef] = useState(null)
-  const [rock, setRock] = useState(null)
+  const [stoneRef, setStoneRef] = useState(null)
+  const [stone, setStone] = useState(null)
   const [checkPoints, setCheckPoints] = useState({})
 
   useKeyPressListener('ArrowUp', () => handleArrowPress(0, -0.5))
@@ -57,35 +57,34 @@ const Game = () => {
     }
   }
 
-  const handleRockMove = (xChange = 0, yChange = 0) => {
-    const newX = rock.x + xChange
-    const newY = rock.y + yChange
+  const handleStoneMove = (xChange = 0, yChange = 0) => {
+    const newX = stone.x + xChange
+    const newY = stone.y + yChange
     if (!isSolid(newX, newY)) {
-      const rockObj = { ...rock }
-      rockObj.x = newX
-      rockObj.y = newY
-      setRock(rockObj)
-      set(rockRef, rockObj)
+      const stoneObj = { ...stone }
+      stoneObj.x = newX
+      stoneObj.y = newY
+      setStone(stoneObj)
+      set(stoneRef, stoneObj)
       attemptGrabCheckPoint(newX, newY)
     }
   }
 
   const handleButtonPress = (motion, direction) => {
     const motionInd = motion === 'push' ? 1 : -1
-    const { x, y } = rock
-    console.log(direction, motion, motionInd)
+    const { x, y } = stone
     switch (direction) {
       case 'tr':
-        handleRockMove(-motionInd, motionInd)
+        handleStoneMove(-motionInd, motionInd)
         break
       case 'tl':
-        handleRockMove(motionInd, motionInd)
+        handleStoneMove(motionInd, motionInd)
         break
       case 'br':
-        handleRockMove(-motionInd, -motionInd)
+        handleStoneMove(-motionInd, -motionInd)
         break
       case 'bl':
-        handleRockMove(motionInd, -motionInd)
+        handleStoneMove(motionInd, -motionInd)
         break
       default:
         console.log('Invalid Direction!')
@@ -147,11 +146,9 @@ const Game = () => {
     }
     const onValueCallback = snapshot => {
       const playersObj = snapshot.val()
-      console.log(playersObj, players, playersInGame)
       setPlayers({})
       setPlayersInGame({})
       Object.entries(playersObj).forEach(([id, player]) => {
-        console.log(id, player)
         if (player.position === 'none') {
           setPlayers(prevPlayers => ({
             ...prevPlayers,
@@ -173,25 +170,24 @@ const Game = () => {
       off(allPlayersRef, 'child_added', onChildaddedCallback)
       off(allPlayersRef, 'value', onValueCallback)
     }
-  }, [])
+  }, [playerId])
 
   useEffect(() => {
-    const rockRef = ref(database, `rock`)
-    setRockRef(rockRef)
+    const stoneRef = ref(database, `stone`)
+    setStoneRef(stoneRef)
     const callback = snapshot => {
-      const rockObj = snapshot.val()
-      console.log(rockObj)
-      setRock({ ...rockObj })
+      const stoneObj = snapshot.val()
+      setStone({ ...stoneObj })
     }
 
-    onChildAdded(rockRef, callback)
-    onValue(rockRef, callback)
+    onChildAdded(stoneRef, callback)
+    onValue(stoneRef, callback)
 
     return () => {
-      off(rockRef, 'child_added', callback)
-      off(rockRef, 'value', callback)
+      off(stoneRef, 'child_added', callback)
+      off(stoneRef, 'value', callback)
     }
-  }, [])
+  }, [playerId])
 
   useEffect(() => {
     const checkPointRef = ref(database, `checkpoints`)
@@ -199,7 +195,6 @@ const Game = () => {
     const onValueCallback = snapshot => {
       const checkPointsObj = snapshot.val()
       setCheckPoints({ ...checkPointsObj })
-      console.log(checkPointsObj)
     }
     const onChildAddedCallback = snapshot => {
       const checkpoint = snapshot.val()
@@ -217,7 +212,7 @@ const Game = () => {
       off(checkPointRef, 'child_added', onChildAddedCallback)
       off(checkPointRef, 'value', onValueCallback)
     }
-  }, [])
+  }, [playerId])
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
@@ -280,7 +275,7 @@ const Game = () => {
                 handleButtonPress={handleButtonPress}
               />
             ))}
-            {rock && <Stone x={rock.x} y={rock.y} />}
+            {stone && <Stone x={stone.x} y={stone.y} />}
             {Object.keys(checkPoints).map(id => (
               <CheckPoint
                 key={id}

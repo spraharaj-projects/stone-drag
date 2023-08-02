@@ -1,7 +1,6 @@
 import './Stone.css'
 
 const Stone = ({ x, y }) => {
-  console.log(x, y)
   return (
     <div
       className="Stone small-grid-cell"

@@ -238,7 +238,6 @@ const animals = [
 const playerColors = ['blue', 'red', 'orange', 'yellow', 'green', 'purple']
 
 export const isSolid = (x, y) => {
-  console.log('----------->', x, y)
   const blockedNextSpace = mapData.blockedSpaces[getKeyString(x, y)]
   return (
     blockedNextSpace ||
