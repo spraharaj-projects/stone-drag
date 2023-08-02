@@ -1,0 +1,49 @@
+.Player_in_game {
+  position: absolute;
+  font-size: 10px;
+}
+
+.tr {
+  top: 20px;
+  right: -5px;
+}
+
+.tl{
+  top: 20px;
+  left: -5px;
+}
+
+.br {
+  bottom: 10px;
+  right: -5px;
+}
+
+.bl {
+  bottom: 10px;
+  left: -5px;
+}
+
+.name-container {
+  position: absolute;
+  top: -12px;
+  left: -5px;
+  font-size: 5px;
+  padding: 1px 2px 1px;
+  border-radius: 3px;
+  background: #333;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.in-game-button {
+  height: 15px;
+  font-size: 5px;
+  padding: 1px 2px 1px;
+  margin-left: 2px;
+  border-radius: 3px;
+  font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

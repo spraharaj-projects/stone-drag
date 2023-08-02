@@ -1,0 +1,15 @@
+.small-grid-cell {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: 1;
+}
+
+.Stone {
+  transition: transform 0.2s;
+}
+
+.Stone_sprite {
+  background: url(../../assets/images/stone-cube.png) no-repeat no-repeat;
+}
+
