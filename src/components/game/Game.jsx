@@ -104,8 +104,6 @@ const Game = () => {
       if (xChange === -1) {
         playerObj.direction = 'left'
       }
-      console.log(xChange)
-      console.log(playerObj)
       setPlayers(prevPlayers => ({
         ...prevPlayers,
         [playerId]: playerObj,
@@ -278,13 +276,14 @@ const Game = () => {
               />
             ))}
             {stone && <Stone x={stone.x} y={stone.y} />}
-            {Object.keys(checkPoints).map(id => (
-              <CheckPoint
-                key={id}
-                x={checkPoints[id].x}
-                y={checkPoints[id].y}
-              />
-            ))}
+            {checkPoints &&
+              Object.keys(checkPoints).map(id => (
+                <CheckPoint
+                  key={id}
+                  x={checkPoints[id].x}
+                  y={checkPoints[id].y}
+                />
+              ))}
           </GameBoard>
           <PlayerInfo
             name={playerName}
